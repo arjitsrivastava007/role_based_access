@@ -91,3 +91,44 @@ class Resource(object):
             self.resources.remove(resource)
         else:
             raise Exception("{0} not present.".format(resource))
+
+
+class User(object):
+    """
+    Manages User
+    """
+
+    users = {}
+
+    def __init__(self):
+        pass
+
+    def add_user(self, user, role):
+        """
+        Adds user with corresponding role
+        :param user:
+        :param role:
+        :return:
+        """
+
+        if user in self.users:
+            self.users[user].append(role)
+        else:
+            self.users[user] = [role]
+
+    def get_roles(self, user):
+        """
+        Returns roles for the user
+        :param user:
+        :return:
+        """
+        return self.users[user]
+
+    def remove_user(self, user):
+        """
+        Removes user
+        :param user:
+        :return:
+        """
+
+        self.users.pop(user)
