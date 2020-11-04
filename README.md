@@ -19,7 +19,7 @@ python -m pip install virtualenv
 6. cd role_based_access
 
 7. Create virtualenv for project,
-python3 -m virtualenv venv
+python -m virtualenv venv
 
 8. Activate virtualenv,
 source venv/bin/activate
