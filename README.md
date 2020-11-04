@@ -23,3 +23,8 @@ python -m virtualenv venv
 
 8. Activate virtualenv,
 source venv/bin/activate
+
+
+Run project command
+
+python run.py
