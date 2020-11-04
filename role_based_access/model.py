@@ -1,50 +1,8 @@
-# -*- coding: utf-8 -*-
 # @Author: Arjit Srivastava
 # @https://github.com/arjitsrivastava007
 
 import utils
 
-
-
-class Role(object):
-    """roles which are associated to permissions to access resources
-
-    :param name: the name of the role
-    """
-
-    roles = {}
-
-    def __init__(self, name=None):
-        """
-        Initializes the a role with the permissions associated with it.
-        """
-        self.name = name
-        Role.roles[name] = self
-
-    def add_role(self, role, access):
-        """
-        Add role along with its access type
-        :param role:
-        :param access:
-        :return:
-        """
-
-        self.roles[role] = utils.ACCESS_TYPE[access]
-
-    def get_role(self, role):
-        """
-        returns the access type of the role
-        """
-        return self.roles[role]
-
-    def remove_role(self, role):
-        """
-        Removes a role
-        :param role:
-        :return:
-        """
-
-        self.roles.pop(role)
 
 
 class Resource(object):
@@ -93,42 +51,59 @@ class Resource(object):
             raise Exception("{0} not present.".format(resource))
 
 
+class Role(object):
+    """
+    Roles which are associated to permissions to access resources
+    """
+
+    def __init__(self, name):
+        """
+        Initializes the a role with the permissions associated with it.
+        """
+        self.name = name
+
+    def get_name(self):
+        """
+        returns the name of the role
+        """
+        return self.name
+
+    def __repr__(self):
+        return '<Role %s>' % self.name
+
+
 class User(object):
     """
     Manages User
     """
 
-    users = {}
-
-    def __init__(self):
-        pass
-
-    def add_user(self, user, role):
+    def __init__(self, roles=[]):
+        """Initialises the roles assigned to the user when created or updated later
+        :param roles: <list> object which holds the roles assigned to the user
         """
-        Adds user with corresponding role
-        :param user:
-        :param role:
-        :return:
-        """
+        self.roles = set(roles)
 
-        if user in self.users:
-            self.users[user].append(role)
-        else:
-            self.users[user] = [role]
+    def add_role(self, role):
+        """Adds the role to this user
 
-    def get_roles(self, user):
+        :param role: the role to be assigned to the user
         """
-        Returns roles for the user
-        :param user:
-        :return:
-        """
-        return self.users[user]
+        self.roles.extend(role)
 
-    def remove_user(self, user):
+    def get_roles(self):
+        """Returns a generator object for the roles held by the User
         """
-        Removes user
-        :param user:
-        :return:
-        """
+        for role in self.roles.copy():
+            yield role
 
-        self.users.pop(user)
+    def remove_role(self, role_name):
+        """Remove a role assigned to a User
+
+        :param role_name: name of the role which needs to be removed
+        """
+        for role in self.get_roles():
+            if role.get_name() == role_name:
+                self.roles.remove(role)
+
+    def __repr__(self):
+        return '<User %s>' % self.roles
