@@ -3,8 +3,8 @@ from role_based_access import AccessControl, User, Role
 everyone_role = Role('everyone')
 admin_role = Role('admin')
 
-everyone_user = User(roles=[everyone_role])
-admin_user = User(roles=[admin_role, everyone_role])
+everyone_user = User(name='everyone_user', roles=[everyone_role])
+admin_user = User(name='admin_user', roles=[admin_role, everyone_role])
 
 
 acl = AccessControl()
